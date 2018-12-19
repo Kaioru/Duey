@@ -18,12 +18,12 @@ var node = file.Resolve("Products");
 // resolve a node ..in a node!
 node.Resolve("Bundled Products");
 
-// resolve a nullable
-node.ResolveOrDefault<string>("name");
+// resolve and defaults to null
+var name = node.ResolveOrDefault<string>("name");
 
-// resolve a non-nullable
-node.Resolve<int>("stock");
-node.Resolve<double>("price");
+// resolve and defaults to a nullable
+var stock = node.Resolve<int>("stock") ?? 0; // 0 is the default value!
+var price = node.Resolve<double>("price") ?? 0.0;
 ```
 also, remember to dispose~!
 ```csharp
