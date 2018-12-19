@@ -17,6 +17,10 @@ namespace Duey.NX
 
         internal readonly NXStringOffsetTable StringOffsetTable;
 
+        public NXFile(string path) : this(MemoryMappedFile.CreateFromFile(path))
+        {
+        }
+
         public NXFile(MemoryMappedFile file)
         {
             File = file;
