@@ -12,6 +12,7 @@ namespace Duey.NX
     public class NXNode
     {
         public string Name => File.StringOffsetTable.Get(Header.StringID);
+        public NXNode Parent;
 
         public IEnumerable<NXNode> Children
         {
@@ -24,7 +25,6 @@ namespace Duey.NX
 
         internal readonly NXFile File;
         internal readonly NXNodeHeader Header;
-        internal readonly NXNode Parent;
         internal readonly long Start;
 
         internal NXNode(NXFile file, NXNode parent, long start)
