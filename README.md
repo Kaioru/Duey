@@ -1,5 +1,5 @@
 # Duey
-A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) specification on .NET Core 2.2.
+A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) specification on .NET Standard 2.0
 
 ## ⭐️ Acknowledgements
 * [reNX](https://github.com/angelsl/ms-reNX) - main reference for implementations.
