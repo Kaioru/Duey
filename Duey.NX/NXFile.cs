@@ -45,6 +45,15 @@ namespace Duey.NX
             Root = new NXNode(this, null, Header.NodeBlock);
         }
 
+        public NXNode Resolve(string path = null)
+            => Root.Resolve(path);
+
+        public T? Resolve<T>(string path = null) where T : struct
+            => Root.Resolve<T>(path);
+
+        public T ResolveOrDefault<T>(string path = null) where T : class
+            => Root.ResolveOrDefault<T>(path);
+        
         public void Dispose()
         {
             File?.Dispose();
