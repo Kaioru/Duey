@@ -105,13 +105,13 @@ namespace Duey.NX
 
         public T? Resolve<T>(string path = null) where T : struct
         {
-            var res = Resolve(path).InternalResolve();
+            var res = Resolve(path)?.InternalResolve();
             if (res is IConvertible)
                 return (T) Convert.ChangeType(res, typeof(T));
             return null;
         }
 
         public T ResolveOrDefault<T>(string path = null) where T : class
-            => (T) Resolve(path).InternalResolve();
+            => (T) Resolve(path)?.InternalResolve() ?? null;
     }
 }
