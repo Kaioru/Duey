@@ -15,15 +15,20 @@ with that, you can do various parsing magic!
 // store a node object for usage later on!
 var node = file.Resolve("Products");
 
-// resolve a node ..in a node!
-node.Resolve("Bundled Products");
-
 // resolve and defaults to null
 var name = node.ResolveOrDefault<string>("name");
 
 // resolve and defaults to a nullable
 var stock = node.Resolve<int>("stock") ?? 0; // 0 is the default value!
 var price = node.Resolve<double>("price") ?? 0.0;
+
+// resolve a node ..in a node!
+var bundles = node.Resolve("Bundled Products");
+
+foreach (var bundle in bundles.Children)
+{
+    // resolve even more stuff here!
+}
 ```
 also, remember to dispose~!
 ```csharp
