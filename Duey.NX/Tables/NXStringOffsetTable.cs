@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using Duey.NX.Exceptions;
 using Duey.NX.Layout.Nodes;
 
 namespace Duey.NX.Tables
@@ -20,7 +21,7 @@ namespace Duey.NX.Tables
 
         public string Get(uint id)
         {
-            if (id > Count) throw new Exception();
+            if (id > Count) throw new NXFileException("Index out of bounds of string offset table");
 
             var offset = Accessor.ReadInt64(Offset + id * 8);
             var stringLength = Accessor.ReadUInt16(offset);

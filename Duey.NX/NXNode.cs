@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Duey.NX.Exceptions;
 using Duey.NX.Layout;
 using Duey.NX.Layout.Nodes;
 
@@ -61,14 +62,16 @@ namespace Duey.NX
                     File.Accessor.Read(Start, out NXVectorNode node);
                     return new Point(node.X, node.Y);
                 }
+                /*
                 case NXNodeType.Bitmap:
                     // TODO: Bitmap
                     return null;
                 case NXNodeType.Audio:
                     // TODO: Audio
                     return null;
+                */
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new NXFileException($"Tried to resolve an unsupported node type {Header.Type}");
             }
         }
 
@@ -97,7 +100,7 @@ namespace Duey.NX
                 c => c.Name.Equals(childName, StringComparison.CurrentCultureIgnoreCase)
             );
 
-            return child != null ? child.Resolve(path.Substring(Math.Min(firstSlash + 1, path.Length))) : null;
+            return child?.Resolve(path.Substring(Math.Min(firstSlash + 1, path.Length)));
         }
 
         public T? Resolve<T>(string path = null) where T : struct
