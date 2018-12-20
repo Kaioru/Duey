@@ -12,7 +12,7 @@ namespace Duey.NX
     public class NXNode
     {
         public string Name => File.StringOffsetTable.Get(Header.StringID);
-        public NXNode Parent;
+        public NXNode Parent { get; }
 
         public IEnumerable<NXNode> Children
         {
