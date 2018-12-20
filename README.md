@@ -13,7 +13,7 @@ var file = new NXFile("Data.nx");
 with that, you can do various parsing magic!
 ```csharp
 // store a node object for usage later on!
-var node = file.Resolve("Products");
+var node = file.Resolve("Store/Products");
 
 // resolve and defaults to null
 var name = node.ResolveOrDefault<string>("name");
