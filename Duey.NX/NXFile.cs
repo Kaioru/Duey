@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using Duey.NX.Exceptions;
@@ -7,7 +9,7 @@ using Duey.NX.Tables;
 
 namespace Duey.NX
 {
-    public class NXFile : IDisposable
+    public class NXFile : IDisposable, IEnumerable<NXNode>
     {
         public NXNode Root { get; }
 
@@ -53,11 +55,17 @@ namespace Duey.NX
 
         public T ResolveOrDefault<T>(string path = null) where T : class
             => Root.ResolveOrDefault<T>(path);
-        
+
         public void Dispose()
         {
             File?.Dispose();
             Accessor?.Dispose();
         }
+
+        public IEnumerator<NXNode> GetEnumerator()
+            => Root.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 }

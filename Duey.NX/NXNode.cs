@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,7 +10,7 @@ using Duey.NX.Layout.Nodes;
 
 namespace Duey.NX
 {
-    public class NXNode
+    public class NXNode : IEnumerable<NXNode>
     {
         public string Name => File.StringOffsetTable.Get(Header.StringID);
         public NXNode Parent { get; }
@@ -113,5 +114,11 @@ namespace Duey.NX
 
         public T ResolveOrDefault<T>(string path = null) where T : class
             => (T) Resolve(path)?.InternalResolve();
+
+        public IEnumerator<NXNode> GetEnumerator()
+            => Children.GetEnumerator();
+
+        IEnumerator IEnumerable.GetEnumerator()
+            => GetEnumerator();
     }
 }
