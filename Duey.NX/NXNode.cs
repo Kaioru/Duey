@@ -112,6 +112,6 @@ namespace Duey.NX
         }
 
         public T ResolveOrDefault<T>(string path = null) where T : class
-            => (T) Resolve(path)?.InternalResolve() ?? null;
+            => (T) Resolve(path)?.InternalResolve();
     }
 }
