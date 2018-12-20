@@ -29,6 +29,18 @@ foreach (var bundle in bundles.Children)
 {
     // resolve even more stuff here!
 }
+
+// if efficiency and speed is an issue..
+foreach (var child in node) {
+    var childName = child.Name;
+    
+    // this ensures that theres no extra lookup steps when parsing!
+    switch (childName) {
+        case "name": name = child.ResolveOrDefault<string>(); break;
+        case "stock": stock = child.Resolve<int>(); break;
+        case "price": price = child.Resolve<double>(); break;
+    }
+}
 ```
 also, remember to dispose~!
 ```csharp
