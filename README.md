@@ -31,7 +31,7 @@ foreach (var bundle in bundles.Children)
 }
 
 // if efficiency and speed is an issue..
-foreach (var child in node) {
+foreach (var child in node.Children) {
     var childName = child.Name;
     
     // this ensures that theres no extra lookup steps when parsing!
