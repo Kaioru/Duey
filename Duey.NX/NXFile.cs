@@ -9,9 +9,13 @@ using Duey.NX.Tables;
 
 namespace Duey.NX
 {
-    public class NXFile : IDisposable, IEnumerable<NXNode>
+    public class NXFile : INXNode, IDisposable
     {
         public NXNode Root { get; }
+
+        public string Name => Root.Name;
+        public INXNode Parent => null;
+        public IEnumerable<INXNode> Children => Root.Children;
 
         internal readonly MemoryMappedFile File;
         internal readonly UnmanagedMemoryAccessor Accessor;
@@ -47,8 +51,13 @@ namespace Duey.NX
             Root = new NXNode(this, null, Header.NodeBlock);
         }
 
-        public NXNode Resolve(string path = null)
-            => Root.Resolve(path);
+        public void Resolve(Action<INXNode> context)
+            => Root.Resolve(context);
+
+        public object Resolve() => null;
+
+        public INXNode ResolvePath(string path = null)
+            => Root.ResolvePath(path);
 
         public T? Resolve<T>(string path = null) where T : struct
             => Root.Resolve<T>(path);
@@ -62,7 +71,7 @@ namespace Duey.NX
             Accessor?.Dispose();
         }
 
-        public IEnumerator<NXNode> GetEnumerator()
+        public IEnumerator<INXNode> GetEnumerator()
             => Root.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()

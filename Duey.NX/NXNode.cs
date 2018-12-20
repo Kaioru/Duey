@@ -10,12 +10,12 @@ using Duey.NX.Layout.Nodes;
 
 namespace Duey.NX
 {
-    public class NXNode : IEnumerable<NXNode>
+    public class NXNode : INXNode
     {
         public string Name => File.StringOffsetTable.Get(Header.StringID);
-        public NXNode Parent { get; }
+        public INXNode Parent { get; }
 
-        public IEnumerable<NXNode> Children
+        public IEnumerable<INXNode> Children
         {
             get
             {
@@ -37,7 +37,10 @@ namespace Duey.NX
             Start = start + Marshal.SizeOf<NXNodeHeader>();
         }
 
-        private object InternalResolve()
+        public void Resolve(Action<INXNode> context)
+            => context.Invoke(this);
+        
+        public object Resolve()
         {
             switch (Header.Type)
             {
@@ -76,7 +79,7 @@ namespace Duey.NX
             }
         }
 
-        public NXNode Resolve(string path = null)
+        public INXNode ResolvePath(string path = null)
         {
             if (string.IsNullOrEmpty(path)) return this;
 
@@ -95,27 +98,27 @@ namespace Duey.NX
             var childName = path.Substring(0, firstSlash);
 
             if (childName == ".." || childName == ".")
-                return Parent.Resolve(path.Substring(Math.Min(firstSlash + 1, path.Length)));
+                return Parent.ResolvePath(path.Substring(Math.Min(firstSlash + 1, path.Length)));
 
             var child = Children.FirstOrDefault(
                 c => c.Name.Equals(childName, StringComparison.CurrentCultureIgnoreCase)
             );
 
-            return child?.Resolve(path.Substring(Math.Min(firstSlash + 1, path.Length)));
+            return child?.ResolvePath(path.Substring(Math.Min(firstSlash + 1, path.Length)));
         }
 
         public T? Resolve<T>(string path = null) where T : struct
         {
-            var res = Resolve(path)?.InternalResolve();
+            var res = ResolvePath(path)?.Resolve();
             if (res is IConvertible)
                 return (T) Convert.ChangeType(res, typeof(T));
             return null;
         }
 
         public T ResolveOrDefault<T>(string path = null) where T : class
-            => (T) Resolve(path)?.InternalResolve();
+            => (T) ResolvePath(path)?.Resolve();
 
-        public IEnumerator<NXNode> GetEnumerator()
+        public IEnumerator<INXNode> GetEnumerator()
             => Children.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()

@@ -25,22 +25,19 @@ var price = node.Resolve<double>("price") ?? 0.0;
 // resolve a node ..in a node!
 var bundles = node.Resolve("Bundled Products");
 
-foreach (var bundle in bundles.Children)
+foreach (var bundle in bundles)
 {
     // resolve even more stuff here!
 }
 
 // if efficiency and speed is an issue..
-foreach (var child in node.Children) {
-    var childName = child.Name;
-    
-    // this ensures that theres no extra lookup steps when parsing!
-    switch (childName) {
-        case "name": name = child.ResolveOrDefault<string>(); break;
-        case "stock": stock = child.Resolve<int>(); break;
-        case "price": price = child.Resolve<double>(); break;
-    }
-}
+// this eager loads direct child of the selected node
+// and from there, it will run at O(1)!
+node.Resolve(c => {
+    name = child.ResolveOrDefault<string>("name");
+    stock = child.Resolve<int>("stock") ?? 0;
+    price = child.Resolve<double>("price") ?? 0.0;
+});
 ```
 also, remember to dispose~!
 ```csharp
