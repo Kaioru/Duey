@@ -28,7 +28,7 @@ namespace Duey.NX.Tables
             var stringData = new byte[stringLength];
 
             Accessor.ReadArray(offset + 2, stringData, 0, stringLength);
-            return Encoding.Default.GetString(stringData);
+            return Encoding.UTF8.GetString(stringData);
         }
     }
 }
