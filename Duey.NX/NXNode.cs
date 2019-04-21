@@ -37,8 +37,11 @@ namespace Duey.NX
             Start = start + Marshal.SizeOf<NXNodeHeader>();
         }
 
-        public void Resolve(Action<INXNode> context)
-            => context.Invoke(this);
+        public INXNode ResolveAll()
+            => new NXResolutionNode(this);
+        
+        public void ResolveAll(Action<INXNode> context)
+            => context.Invoke(ResolveAll());
         
         public object Resolve()
         {

@@ -8,8 +8,9 @@ namespace Duey.NX
         string Name { get; }
         INXNode Parent { get; }
         IEnumerable<INXNode> Children { get; }
-        
-        void Resolve(Action<INXNode> context);
+
+        INXNode ResolveAll();
+        void ResolveAll(Action<INXNode> context);
         object Resolve();
         INXNode ResolvePath(string path = null);
         T? Resolve<T>(string path = null) where T : struct;

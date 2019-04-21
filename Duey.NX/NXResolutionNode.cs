@@ -20,8 +20,11 @@ namespace Duey.NX
             _children = _node.ToDictionary(n => n.Name, n => n);
         }
 
-        public void Resolve(Action<INXNode> context)
-            => _node.Resolve(context);
+        public INXNode ResolveAll()
+            => _node.ResolveAll();
+
+        public void ResolveAll(Action<INXNode> context)
+            => _node.ResolveAll(context);
 
         public object Resolve()
             => _node.Resolve();

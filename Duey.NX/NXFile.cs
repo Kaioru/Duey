@@ -51,8 +51,11 @@ namespace Duey.NX
             Root = new NXNode(this, null, Header.NodeBlock);
         }
 
-        public void Resolve(Action<INXNode> context)
-            => Root.Resolve(context);
+        public INXNode ResolveAll()
+            => Root.ResolveAll();
+
+        public void ResolveAll(Action<INXNode> context)
+            => Root.ResolveAll(context);
 
         public object Resolve() => null;
 
