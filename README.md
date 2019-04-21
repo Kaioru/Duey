@@ -2,7 +2,7 @@
 A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) specification on .NET Standard 2.0
 
 ## 🤔 Why?
-* Duey works on runtimes targetting or supporting .NET Standard!
+* Duey works on runtimes targeting or supporting .NET Standard!
 * also, it's strictly parsing only. no caches, no weird voodoo magic.
 
 ## ✏️ Usage
