@@ -33,11 +33,16 @@ foreach (var bundle in bundles)
 // all the previous resolving examples run at O(n)
 // if efficiency and speed is an issue..
 // this eager loads direct child of the selected node.
-node.Resolve(n => { // O(n)
+node.ResolveAll(n => { // O(n)
     name = n.ResolveOrDefault<string>("name"); // O(1)
     stock = n.Resolve<int>("stock") ?? 0; // O(1)
     price = n.Resolve<double>("price") ?? 0.0; // O(1)
 });
+
+// compared to..
+name = node.ResolveOrDefault<string>("name"); // O(n)
+stock = node.Resolve<int>("stock") ?? 0; // O(n)
+price = node.Resolve<double>("price") ?? 0.0; // O(n)
 ```
 also, remember to dispose~!
 ```csharp
