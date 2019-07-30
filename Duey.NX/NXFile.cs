@@ -17,20 +17,22 @@ namespace Duey.NX
         public INXNode Parent => null;
         public IEnumerable<INXNode> Children => Root.Children;
 
-        internal readonly MemoryMappedFile File;
+        internal readonly MemoryMappedFile View;
         internal readonly UnmanagedMemoryAccessor Accessor;
         internal readonly NXFileHeader Header;
 
         internal readonly NXStringOffsetTable StringOffsetTable;
+        internal readonly NXBitmapOffsetTable BitmapOffsetTable;
+        internal readonly NXAudioOffsetTable AudioOffsetTable;
 
         public NXFile(string path) : this(MemoryMappedFile.CreateFromFile(path))
         {
         }
 
-        public NXFile(MemoryMappedFile file)
+        public NXFile(MemoryMappedFile view)
         {
-            File = file;
-            Accessor = File.CreateViewAccessor();
+            View = view;
+            Accessor = View.CreateViewAccessor();
 
             Accessor.Read(0, out Header);
 
@@ -47,7 +49,9 @@ namespace Duey.NX
                 Header.AudioOffsetTable % 8 != 0)
                 throw new NXFileException("Audio offset table offset not divisible by 8");
 
-            StringOffsetTable = new NXStringOffsetTable(Accessor, Header.StringCount, Header.StringOffsetTable);
+            StringOffsetTable = new NXStringOffsetTable(this, Header.StringCount, Header.StringOffsetTable);
+            BitmapOffsetTable = new NXBitmapOffsetTable(this, Header.BitmapCount, Header.BitmapOffsetTable);
+            AudioOffsetTable = new NXAudioOffsetTable(this, Header.AudioCount, Header.AudioOffsetTable);
             Root = new NXNode(this, null, Header.NodeBlock);
         }
 
@@ -70,7 +74,7 @@ namespace Duey.NX
 
         public void Dispose()
         {
-            File?.Dispose();
+            View?.Dispose();
             Accessor?.Dispose();
         }
 

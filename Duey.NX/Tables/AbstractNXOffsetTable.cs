@@ -1,21 +1,19 @@
-using System.IO;
-
 namespace Duey.NX.Tables
 {
     internal abstract class AbstractNXOffsetTable<TReturn, TData>
         where TData : struct
     {
-        internal readonly UnmanagedMemoryAccessor Accessor;
+        internal readonly NXFile File;
         internal readonly uint Count;
         internal readonly long Offset;
 
         public AbstractNXOffsetTable(
-            UnmanagedMemoryAccessor accessor,
+            NXFile file,
             uint count,
             long offset
         )
         {
-            Accessor = accessor;
+            File = file;
             Count = count;
             Offset = offset;
         }

@@ -28,7 +28,7 @@ namespace Duey.NX
         internal readonly NXNodeHeader Header;
         internal readonly long Start;
 
-        internal NXNode(NXFile file, NXNode parent, long start)
+        internal NXNode(NXFile file, INXNode parent, long start)
         {
             File = file;
             Parent = parent;
@@ -69,14 +69,16 @@ namespace Duey.NX
                     File.Accessor.Read(Start, out NXVectorNode node);
                     return new Point(node.X, node.Y);
                 }
-                /*
                 case NXNodeType.Bitmap:
-                    // TODO: Bitmap
-                    return null;
+                {
+                    File.Accessor.Read(Start, out NXBitmapNode node);
+                    return File.BitmapOffsetTable.Get(node);
+                }
                 case NXNodeType.Audio:
-                    // TODO: Audio
-                    return null;
-                */
+                {
+                    File.Accessor.Read(Start, out NXAudioNode node);
+                    return File.AudioOffsetTable.Get(node);
+                }
                 default:
                     throw new NXFileException($"Tried to resolve an unsupported node type {Header.Type}");
             }
