@@ -5,6 +5,14 @@ A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.git
 * Duey works on runtimes targeting or supporting .NET Standard!
 * also, it's strictly parsing only. no caches, no weird voodoo magic.
 
+## 🏹 Supported Types
+- [x] Int64 (byte, short, int, long)
+- [x] Double (float, double)
+- [x] String (string)
+- [x] Vector (Point)
+- [ ] Bitmap
+- [ ] Audio
+
 ## ✏️ Usage
 to get started, simply create a new NX File object like so.
 ```csharp
