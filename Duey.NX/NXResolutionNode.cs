@@ -2,11 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Duey.NX.Layout;
 
 namespace Duey.NX
 {
     public class NXResolutionNode : INXNode
     {
+        public NXNodeType Type => _node.Type;
         public string Name => _node.Name;
         public INXNode Parent => _node.Parent;
         public IEnumerable<INXNode> Children => _children.Values;

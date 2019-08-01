@@ -12,6 +12,7 @@ namespace Duey.NX
 {
     public class NXNode : INXNode
     {
+        public NXNodeType Type => Header.Type;
         public string Name => File.StringOffsetTable.Get(Header.StringID);
         public INXNode Parent { get; }
 

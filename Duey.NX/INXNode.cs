@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using Duey.NX.Layout;
 
 namespace Duey.NX
 {
     public interface INXNode : IEnumerable<INXNode>
     {
+        NXNodeType Type { get; }
+        
         string Name { get; }
         INXNode Parent { get; }
         IEnumerable<INXNode> Children { get; }

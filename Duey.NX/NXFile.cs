@@ -13,6 +13,7 @@ namespace Duey.NX
     {
         public NXNode Root { get; }
 
+        public NXNodeType Type => Root.Type;
         public string Name => Root.Name;
         public INXNode Parent => null;
         public IEnumerable<INXNode> Children => Root.Children;
