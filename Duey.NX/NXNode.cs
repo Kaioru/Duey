@@ -46,7 +46,7 @@ namespace Duey.NX
         
         public object Resolve()
         {
-            switch (Header.Type)
+            switch (Type)
             {
                 case NXNodeType.None:
                     return null;
