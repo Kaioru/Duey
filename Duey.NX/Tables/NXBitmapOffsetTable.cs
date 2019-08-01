@@ -29,7 +29,7 @@ namespace Duey.NX.Tables
             File.Accessor.ReadArray(offset + 4, source, 0, sourceLength);
             LZ4Codec.Decode(source, target);
 
-            return new NXBitmap(data.Height, data.Width, target);
+            return new NXBitmap(data.Width, data.Height, target);
         }
     }
 }
