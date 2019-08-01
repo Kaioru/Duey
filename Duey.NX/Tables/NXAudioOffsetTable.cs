@@ -1,30 +1,32 @@
 using System.IO;
 using Duey.NX.Exceptions;
 using Duey.NX.Layout.Nodes;
+using Duey.NX.Types;
 
 namespace Duey.NX.Tables
 {
-    internal class NXAudioOffsetTable : AbstractNXOffsetTable<Stream, NXAudioNode>
+    internal class NXAudioOffsetTable : AbstractNXOffsetTable<NXAudio, NXAudioNode>
     {
         public NXAudioOffsetTable(
-            NXFile file, 
-            uint count, 
+            NXFile file,
+            uint count,
             long offset
         ) : base(file, count, offset)
         {
         }
 
-        public override Stream Get(NXAudioNode data)
+        public override NXAudio Get(NXAudioNode data)
         {
             var id = data.AudioID;
-            
+
             if (id > Count) throw new NXFileException("Index out of bounds of audio offset table");
 
             var offset = File.Accessor.ReadInt64(Offset + id * 8);
-            var length = data.Length;
-            
-            using (var source = File.View.CreateViewStream(offset + 4, length))
-                return source;
+            var length = (int) data.Length;
+            var target = new byte[length];
+
+            File.Accessor.ReadArray(offset + 4, target, 0, length);
+            return new NXAudio(target);
         }
     }
 }
