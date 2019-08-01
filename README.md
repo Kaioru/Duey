@@ -10,8 +10,8 @@ A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.git
 - [x] Double (float, double)
 - [x] String (string)
 - [x] Vector (Point)
-- [ ] Bitmap
-- [ ] Audio
+- [x] Bitmap (NXBitmap)
+- [x] Audio (NXAudio)
 
 ## ✏️ Usage
 to get started, simply create a new NX File object like so.
@@ -25,6 +25,8 @@ var node = file.Resolve("Store/Products");
 
 // resolve and defaults to null
 var name = node.ResolveOrDefault<string>("name");
+var image = node.ResolveOrDefault<NXBitmap>("image");
+var soundFx = node.ResolveOrDefault<NXAudio>("soundFx");
 
 // resolve and defaults to a nullable
 var stock = node.Resolve<int>("stock") ?? 0; // 0 is the default value!
