@@ -54,6 +54,17 @@ name = node.ResolveOrDefault<string>("name"); // O(n)
 stock = node.Resolve<int>("stock") ?? 0; // O(n)
 price = node.Resolve<double>("price") ?? 0.0; // O(n)
 ```
+parsing bitmaps/images with ImageSharp
+```csharp
+var bitmap = node.ResolveOrDefault<NXBitmap>("icon");
+
+using (var image = Image.LoadPixelData<Bgra32>(bitmap.Data, bitmap.Width, bitmap.Height))
+using (var output = File.Create("icon.png")) {
+    // do image manipulation stuff here
+    // save the image!
+    image.SaveAsPng(output);
+}
+```
 also, remember to dispose~!
 ```csharp
 using (var file = new NXFile("Data.nx")) {
