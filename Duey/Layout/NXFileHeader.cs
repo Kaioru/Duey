@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 
-namespace Duey.NX.Layout
+namespace Duey.Layout
 {
     [StructLayout(LayoutKind.Explicit, Pack = 4, Size = 52)]
     internal struct NXFileHeader

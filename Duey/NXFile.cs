@@ -3,11 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.MemoryMappedFiles;
-using Duey.NX.Exceptions;
-using Duey.NX.Layout;
-using Duey.NX.Tables;
+using Duey.Exceptions;
+using Duey.Layout;
+using Duey.Tables;
 
-namespace Duey.NX
+namespace Duey
 {
     public class NXFile : INXNode, IDisposable
     {

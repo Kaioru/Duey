@@ -1,6 +1,6 @@
 using System;
 
-namespace Duey.NX.Exceptions
+namespace Duey.Exceptions
 {
     public class NXFileException : Exception
     {

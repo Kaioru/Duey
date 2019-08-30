@@ -1,8 +1,8 @@
 using System.Text;
-using Duey.NX.Exceptions;
-using Duey.NX.Layout.Nodes;
+using Duey.Exceptions;
+using Duey.Layout.Nodes;
 
-namespace Duey.NX.Tables
+namespace Duey.Tables
 {
     internal class NXStringOffsetTable : AbstractNXOffsetTable<string, NXStringNode>
     {

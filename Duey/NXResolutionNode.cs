@@ -2,9 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Duey.NX.Layout;
+using Duey.Layout;
 
-namespace Duey.NX
+namespace Duey
 {
     public class NXResolutionNode : INXNode
     {

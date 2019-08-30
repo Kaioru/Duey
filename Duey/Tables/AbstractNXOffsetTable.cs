@@ -1,4 +1,4 @@
-namespace Duey.NX.Tables
+namespace Duey.Tables
 {
     internal abstract class AbstractNXOffsetTable<TReturn, TData>
         where TData : struct

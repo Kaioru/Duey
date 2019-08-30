@@ -1,4 +1,4 @@
-namespace Duey.NX.Types
+namespace Duey.Types
 {
     public class NXBitmap
     {

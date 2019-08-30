@@ -1,9 +1,9 @@
-using Duey.NX.Exceptions;
-using Duey.NX.Layout.Nodes;
-using Duey.NX.Types;
+using Duey.Exceptions;
+using Duey.Layout.Nodes;
+using Duey.Types;
 using K4os.Compression.LZ4;
 
-namespace Duey.NX.Tables
+namespace Duey.Tables
 {
     internal class NXBitmapOffsetTable : AbstractNXOffsetTable<NXBitmap, NXBitmapNode>
     {

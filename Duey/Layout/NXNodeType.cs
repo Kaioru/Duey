@@ -1,4 +1,4 @@
-namespace Duey.NX.Layout
+namespace Duey.Layout
 {
     public enum NXNodeType : ushort
     {

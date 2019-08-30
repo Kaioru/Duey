@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.InteropServices;
-using Duey.NX.Exceptions;
-using Duey.NX.Layout;
-using Duey.NX.Layout.Nodes;
+using Duey.Exceptions;
+using Duey.Layout;
+using Duey.Layout.Nodes;
 
-namespace Duey.NX
+namespace Duey
 {
     public class NXNode : INXNode
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Duey.NX.Layout;
+using Duey.Layout;
 
-namespace Duey.NX
+namespace Duey
 {
     public interface INXNode : IEnumerable<INXNode>
     {

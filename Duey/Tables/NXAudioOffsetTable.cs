@@ -1,9 +1,9 @@
 using System.IO;
-using Duey.NX.Exceptions;
-using Duey.NX.Layout.Nodes;
-using Duey.NX.Types;
+using Duey.Exceptions;
+using Duey.Layout.Nodes;
+using Duey.Types;
 
-namespace Duey.NX.Tables
+namespace Duey.Tables
 {
     internal class NXAudioOffsetTable : AbstractNXOffsetTable<NXAudio, NXAudioNode>
     {
