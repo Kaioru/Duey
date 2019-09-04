@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>1.0.0</version>
+    <title>Duey</title>
+    <authors>Kaioru</authors>
+    <projectUrl>https://github.com/Kaioru/Duey</projectUrl>
+    <description>A minimal read-only implementation of the NX PKG4.1 format specification on .NET Standard 2.0</description>
+    <tags>duey nx pkg4.1 pkg4</tags>
+  </metadata>
+</package>
