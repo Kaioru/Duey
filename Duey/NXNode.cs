@@ -107,7 +107,7 @@ namespace Duey
                 return Parent.ResolvePath(path.Substring(Math.Min(firstSlash + 1, path.Length)));
 
             var child = Children.FirstOrDefault(
-                c => c.Name.Equals(childName, StringComparison.CurrentCultureIgnoreCase)
+                c => c.Name.Equals(childName)
             );
 
             return child?.ResolvePath(path.Substring(Math.Min(firstSlash + 1, path.Length)));
