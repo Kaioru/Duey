@@ -29,7 +29,7 @@ namespace Duey
         public NXFile(string path) : this(MemoryMappedFile.CreateFromFile(
             File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read),
             null,
-            0L,
+            0,
             MemoryMappedFileAccess.Read,
             HandleInheritability.None,
             false
@@ -40,7 +40,7 @@ namespace Duey
         public NXFile(MemoryMappedFile view)
         {
             View = view;
-            Accessor = View.CreateViewAccessor();
+            Accessor = View.CreateViewAccessor(0, 0, MemoryMappedFileAccess.Read);
 
             Accessor.Read(0, out Header);
 
