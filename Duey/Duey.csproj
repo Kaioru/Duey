@@ -2,6 +2,13 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <PackageId>Duey</PackageId>
+        <Version>1.0.3</Version>
+        <Authors>Kaioru</Authors>
+        <PackageProjectUrl>https://github.com/Kaioru/Duey</PackageProjectUrl>
+        <PackageLicenseUrl>https://github.com/Kaioru/Duey/blob/master/LICENSE</PackageLicenseUrl>
+        <Description>A minimal read-only implementation of the NX PKG4.1 format specification on .NET Standard 2.0</Description>
+        <PackageTags>duey nx pkg4.1 pkg4</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
