@@ -26,7 +26,14 @@ namespace Duey
         internal readonly NXBitmapOffsetTable BitmapOffsetTable;
         internal readonly NXAudioOffsetTable AudioOffsetTable;
 
-        public NXFile(string path) : this(MemoryMappedFile.CreateFromFile(path))
+        public NXFile(string path) : this(MemoryMappedFile.CreateFromFile(
+            File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read),
+            null,
+            0L,
+            MemoryMappedFileAccess.Read,
+            HandleInheritability.None,
+            false
+        ))
         {
         }
 
