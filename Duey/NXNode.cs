@@ -7,6 +7,7 @@ using System.Runtime.InteropServices;
 using Duey.Exceptions;
 using Duey.Layout;
 using Duey.Layout.Nodes;
+using Duey.Types;
 
 namespace Duey
 {
@@ -68,7 +69,7 @@ namespace Duey
                 case NXNodeType.Vector:
                 {
                     File.Accessor.Read(Start, out NXVectorNode node);
-                    return new Point(node.X, node.Y);
+                    return new NXVector(node.X, node.Y);
                 }
                 case NXNodeType.Bitmap:
                 {

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <PackageId>Duey</PackageId>
-        <Version>1.0.3</Version>
+        <Version>1.0.4</Version>
         <Authors>Kaioru</Authors>
         <PackageProjectUrl>https://github.com/Kaioru/Duey</PackageProjectUrl>
         <PackageLicenseUrl>https://github.com/Kaioru/Duey/blob/master/LICENSE</PackageLicenseUrl>
