@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <Import Project="..\Source.targets" />
+
+    <ItemGroup>
+      <ProjectReference Include="..\Duey.Abstractions\Duey.Abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="K4os.Compression.LZ4" Version="1.3.6" />
+    </ItemGroup>
+
+</Project>
