@@ -4,7 +4,7 @@ namespace Duey.Abstractions;
 
 public static class DataExtensions
 {
-    public static long? ResolveInt64(this IDataNode node, string? path = null)
+    public static long? ResolveLong(this IDataNode node, string? path = null)
         => ((path != null ? node.ResolvePath(path) : node) as IDataProperty<long>)?.Resolve();
     
     public static double? ResolveDouble(this IDataNode node, string? path = null)
