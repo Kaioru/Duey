@@ -11,8 +11,9 @@ public class NXPropertyDouble : NXNode, IDataProperty<double>
     internal NXPropertyDouble(
         NXPackage package, 
         NXNodeHeader header, 
+        IDataNode? parent,
         NXPropertyDoubleHeader dataHeader
-    ) : base(package, header) 
+    ) : base(package, header, parent) 
         => _dataHeader = dataHeader;
 
     public double Resolve() => _dataHeader.Data;

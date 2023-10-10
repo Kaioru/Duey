@@ -12,8 +12,9 @@ public class NXPropertyBitmap : NXNode, IDataProperty<DataBitmap>
     internal NXPropertyBitmap(
         NXPackage package, 
         NXNodeHeader header, 
+        IDataNode? parent,
         NXPropertyBitmapHeader dataHeader
-    ) : base(package, header) 
+    ) : base(package, header, parent) 
         => _dataHeader = dataHeader;
 
     public DataBitmap Resolve() => Package.BitmapOffsetTable.Get(_dataHeader);

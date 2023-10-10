@@ -12,8 +12,9 @@ public class NXPropertyAudio : NXNode, IDataProperty<DataAudio>
     internal NXPropertyAudio(
         NXPackage package, 
         NXNodeHeader header, 
+        IDataNode? parent,
         NXPropertyAudioHeader dataHeader
-    ) : base(package, header) 
+    ) : base(package, header, parent) 
         => _dataHeader = dataHeader;
 
     public DataAudio Resolve() => Package.AudioOffsetTable.Get(_dataHeader);

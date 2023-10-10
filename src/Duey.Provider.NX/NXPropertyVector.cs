@@ -12,8 +12,9 @@ public class NXPropertyVector : NXNode, IDataProperty<DataVector>
     internal NXPropertyVector(
         NXPackage package, 
         NXNodeHeader header, 
+        IDataNode? parent,
         NXPropertyVectorHeader dataHeader
-    ) : base(package, header) 
+    ) : base(package, header, parent) 
         => _dataHeader = dataHeader;
 
     public DataVector Resolve() => new(_dataHeader.X, _dataHeader.Y);

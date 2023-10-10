@@ -11,8 +11,9 @@ public class NXPropertyInt64 : NXNode, IDataProperty<long>
     internal NXPropertyInt64(
         NXPackage package, 
         NXNodeHeader header, 
+        IDataNode? parent,
         NXPropertyInt64Header dataHeader
-    ) : base(package, header) 
+    ) : base(package, header, parent) 
         => _dataHeader = dataHeader;
 
     public long Resolve() => _dataHeader.Data;

@@ -11,8 +11,9 @@ public class NXPropertyString : NXNode, IDataProperty<string>
     internal NXPropertyString(
         NXPackage package, 
         NXNodeHeader header, 
+        IDataNode? parent,
         NXPropertyStringHeader dataHeader
-    ) : base(package, header) 
+    ) : base(package, header, parent) 
         => _dataHeader = dataHeader;
 
     public string Resolve() => Package.StringOffsetTable.Get(_dataHeader);
