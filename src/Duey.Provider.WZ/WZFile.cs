@@ -26,7 +26,6 @@ public class WZFile : AbstractWZNode, IDataFile
         parent
     )
     {
-        
     }
     
     public WZFile(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)

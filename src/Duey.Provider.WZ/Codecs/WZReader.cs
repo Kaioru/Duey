@@ -8,12 +8,14 @@ public class WZReader : BinaryReader
 {
     private readonly XORCipher _cipher;
     private readonly int _start;
+    private readonly int _offset;
     
-    public WZReader(Stream input, XORCipher cipher, int start) : base(input)
+    public WZReader(Stream input, XORCipher cipher, int start, int offset = 0) : base(input)
     {
         input.Position = start;
         _cipher = cipher;
         _start = start;
+        _offset = offset;
     }
 
     public string ReadStringBlock()
@@ -33,7 +35,7 @@ public class WZReader : BinaryReader
     
     public string ReadStringOffset()
     {
-        var offset = ReadInt32();
+        var offset = ReadInt32() + _offset;
         var position = BaseStream.Position;
         
         BaseStream.Position = offset;
@@ -76,4 +78,22 @@ public class WZReader : BinaryReader
         return Encoding.Unicode.GetString(bytes);
     }
 
+    public int ReadOffset(int start, uint key)
+    {
+        var position = BaseStream.Position;
+        var encrypted = ReadUInt32();
+        var offset = (uint)position;
+        
+        offset = (uint)(offset - start) ^ 0xFFFFFFFF;
+        offset *= key;
+
+        offset -= 0x581C3F6D;
+        offset = ROL(offset, (byte)(offset & 0x1F));
+
+        offset ^= encrypted;
+        offset += (uint)(start * 2);
+        return (int)offset;
+    }
+    
+    private static uint ROL(uint value, byte times) => value << times | value >> (32 - times);
 }
