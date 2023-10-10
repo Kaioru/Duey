@@ -31,6 +31,15 @@ public static class DataExtensions
 
         return child?.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
     }
+
+    public static byte? ResolveByte(this IDataNode node, string? path = null)
+        => (byte?)node.ResolveLong(path);
+    
+    public static short? ResolveShort(this IDataNode node, string? path = null)
+        => (short?)node.ResolveLong(path);
+    
+    public static int? ResolveInt(this IDataNode node, string? path = null)
+        => (int?)node.ResolveLong(path);
     
     public static long? ResolveLong(this IDataNode node, string? path = null)
         => ((path != null ? node.ResolvePath(path) : node) as IDataProperty<long>)?.Resolve();
