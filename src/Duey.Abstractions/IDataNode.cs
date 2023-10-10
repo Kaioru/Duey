@@ -6,6 +6,4 @@ public interface IDataNode : IEnumerable<IDataNode>
     
     IDataNode Parent { get; }
     IEnumerable<IDataNode> Children { get; }
-    
-    IDataNode? ResolvePath(string path);
 }

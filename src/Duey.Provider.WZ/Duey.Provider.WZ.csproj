@@ -10,9 +10,4 @@
       <ProjectReference Include="..\Duey.Abstractions\Duey.Abstractions.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Codecs\" />
-      <Folder Include="Types\" />
-    </ItemGroup>
-
 </Project>

@@ -81,34 +81,6 @@ public class NXNode : IDataNode
         }
     }
 
-    public IDataNode? ResolvePath(string path)
-    {
-        if (string.IsNullOrEmpty(path)) return this;
-
-        var forwardSlashPosition = path.IndexOf('/');
-        var backSlashPosition = path.IndexOf('\\', 0, forwardSlashPosition == -1
-            ? path.Length
-            : forwardSlashPosition);
-        int firstSlash;
-
-        if (forwardSlashPosition == -1) firstSlash = backSlashPosition;
-        else if (backSlashPosition == -1) firstSlash = forwardSlashPosition;
-        else firstSlash = Math.Min(forwardSlashPosition, backSlashPosition);
-
-        if (firstSlash == -1) firstSlash = path.Length;
-
-        var childName = path[..firstSlash];
-
-        if (childName is ".." or ".")
-            return Parent.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
-
-        var child = Children.FirstOrDefault(
-            c => c.Name.Equals(childName)
-        );
-
-        return child?.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
-    }
-
     public IEnumerator<IDataNode> GetEnumerator()
         => Children.GetEnumerator();
 

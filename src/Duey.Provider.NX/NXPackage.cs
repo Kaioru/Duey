@@ -64,9 +64,6 @@ public class NXPackage : IDataFile
     public IDataNode Parent => Root;
     public IEnumerable<IDataNode> Children => Root.Children;
 
-    public IDataNode? ResolvePath(string path)
-        => Root.ResolvePath(path);
-    
     public IEnumerator<IDataNode> GetEnumerator()
         => Root.GetEnumerator();
 
