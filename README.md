@@ -1,5 +1,5 @@
 # Duey
-A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) specification on .NET Standard 2.0
+A minimal read-only implementation of the PKG1.0 and [NX PKG4.1 format](http://nxformat.github.io/) file specification on .NET Standard 2.1
 
 ## 🤔 Why?
 * Duey works on runtimes targeting or supporting .NET Standard!
@@ -10,8 +10,8 @@ A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.git
 - [x] Double (float, double)
 - [x] String (string)
 - [x] Vector (Point)
-- [x] Bitmap (NXBitmap)
-- [x] Audio (NXAudio)
+- [-] Bitmap (NXBitmap)
+- [-] Audio (NXAudio)
 
 ## ✏️ Usage
 to get started, simply create a new NX File object like so.

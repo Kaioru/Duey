@@ -4,6 +4,9 @@ namespace Duey.Abstractions;
 
 public static class DataExtensions
 {
+    public static IDataNode ResolveAll(this IDataNode node)
+        => new ResolutionNode(node);
+    
     public static IDataNode? ResolvePath(this IDataNode node, string? path = null)
     {
         if (string.IsNullOrEmpty(path)) return node;
