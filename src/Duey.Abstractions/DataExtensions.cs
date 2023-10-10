@@ -25,9 +25,13 @@ public static class DataExtensions
         if (childName is ".." or ".")
             return node.Parent.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
 
-        var child = node.Children.FirstOrDefault(
-            c => c.Name.Equals(childName)
-        );
+        var child = node is ResolutionNode resolution 
+            ? resolution.Cached.TryGetValue(childName, out var result) 
+                ? result 
+                : null
+            : node.Children.FirstOrDefault(
+                c => c.Name.Equals(childName)
+            );
 
         return child?.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
     }
