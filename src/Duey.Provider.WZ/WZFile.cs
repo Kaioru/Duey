@@ -9,15 +9,34 @@ namespace Duey.Provider.WZ;
 public class WZFile : AbstractWZNode, IDataFile
 {
     private readonly IDataNode _root;
-    
-    public WZFile(MemoryMappedFile view, XORCipher cipher, int start, string name, IDataNode? parent = null)
+
+    public WZFile(string path, XORCipher? cipher = null, IDataNode? parent = null) : this(
+        MemoryMappedFile.CreateFromFile(
+            File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read),
+            null,
+            0,
+            MemoryMappedFileAccess.Read,
+            HandleInheritability.None,
+            false
+        ),
+        cipher ?? new XORCipher(),
+        0,
+        0,
+        Path.GetFileName(path),
+        parent
+    )
     {
-        using var stream = view.CreateViewStream(0, 0, MemoryMappedFileAccess.Read);
+        
+    }
+    
+    public WZFile(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)
+    {
+        using var stream = view.CreateViewStream(offset, 0, MemoryMappedFileAccess.Read);
         using var reader = new WZReader(stream, cipher, start);
 
         if (reader.ReadStringBlock() != "Property") throw new WZPackageException("Loaded file is not a property");
 
-        _root = new WZPropertyFile(view, cipher, (int)stream.Position, name, parent);
+        _root = new WZPropertyFile(view, cipher, (int)stream.Position, offset, name, parent);
     }
 
     public override string Name => _root.Name;

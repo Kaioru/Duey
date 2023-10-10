@@ -6,7 +6,7 @@ public class AESCipher
 {
     private readonly ICryptoTransform _transformer;
 
-    public AESCipher() : this(new byte[] { 0x13, 0x08, 0x06, 0xb4, 0x1b, 0x0f, 0x33, 0x52 })
+    public AESCipher() : this(WZFileKey.Default)
     {
     }
 

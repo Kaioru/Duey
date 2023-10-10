@@ -5,6 +5,10 @@ public class XORCipher
     private AESCipher _aes;
     private byte[] _key;
 
+    public XORCipher() : this(WZFileIV.GMS)
+    {
+    }
+    
     public XORCipher(IReadOnlyList<byte> iv) : this(new AESCipher(), iv)
     {
     }

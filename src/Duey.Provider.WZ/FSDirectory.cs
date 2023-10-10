@@ -26,23 +26,7 @@ public class FSDirectory : AbstractWZNode, IDataDirectory
             foreach (var directory in Directory.GetDirectories(_path))
                 yield return new FSDirectory(directory, this);
             foreach (var file in Directory.GetFiles(_path, "*.img"))
-            {
-                var cipher = new XORCipher(new byte[] {0x4D, 0x23, 0xC7, 0x2B});
-                yield return new WZFile(
-                    MemoryMappedFile.CreateFromFile(
-                        File.Open(file, FileMode.Open, FileAccess.Read, FileShare.Read),
-                        null,
-                        0,
-                        MemoryMappedFileAccess.Read,
-                        HandleInheritability.None,
-                        false
-                    ),
-                    cipher,
-                    0,
-                    Path.GetFileName(file),
-                    this
-                );
-            }
+                yield return new WZFile(file, null, this);
         }
     }
 }

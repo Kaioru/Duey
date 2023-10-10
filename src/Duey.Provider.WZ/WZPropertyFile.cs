@@ -12,12 +12,14 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
     private readonly MemoryMappedFile _view;
     private readonly XORCipher _cipher;
     private readonly int _start;
+    private readonly int _offset;
 
-    public WZPropertyFile(MemoryMappedFile view, XORCipher cipher, int start, string name, IDataNode? parent = null)
+    public WZPropertyFile(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)
     {
         _view = view;
         _cipher = cipher;
         _start = start;
+        _offset = offset;
         Name = name;
         Parent = parent ?? this;
     }
@@ -29,7 +31,7 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
     {
         get
         {
-            using var stream = _view.CreateViewStream(0, 0, MemoryMappedFileAccess.Read);
+            using var stream = _view.CreateViewStream(_offset, 0, MemoryMappedFileAccess.Read);
             using var reader = new WZReader(stream, _cipher, _start);
             
             reader.ReadBoolean();
@@ -88,7 +90,7 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                         switch (reader.ReadStringBlock())
                         {
                             case "Property":
-                                yield return new WZPropertyFile(_view, _cipher, (int)reader.BaseStream.Position, name, this);
+                                yield return new WZPropertyFile(_view, _cipher, (int)reader.BaseStream.Position, _offset, name, this);
                                 break;
                             case "Shape2D#Vector2D":
                                 yield return new WZPropertyData<DataVector>(name, this, new DataVector(
