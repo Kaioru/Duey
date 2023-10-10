@@ -1,5 +1,5 @@
 # Duey
-A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) specification on .NET Standard 2.0
+A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) and PKG1.0 file specification on .NET Standard 2.1
 
 ## 🤔 Why?
 * Duey works on runtimes targeting or supporting .NET Standard!
@@ -9,31 +9,27 @@ A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.git
 - [x] Int64 (byte, short, int, long)
 - [x] Double (float, double)
 - [x] String (string)
-- [x] Vector (Point)
-- [x] Bitmap (NXBitmap)
-- [x] Audio (NXAudio)
+- [x] Vector (DataVector)
+- [x] Bitmap (DataBitmap)
+- [x] Audio (DataAudio)
 
-## ✏️ Usage
-to get started, simply create a new NX File object like so.
+## ✏️ Usage (PKG4.1)
+to get started, simply create a new NX Package object like so.
 ```csharp
-var file = new NXFile("Data.nx");
+var pkg = new NXPackage("Data.nx");
 ```
 with that, you can do various parsing magic!
 ```csharp
 // store a node object for usage later on!
-var node = file.ResolvePath("Store/Products");
+var node = pkg.ResolvePath("Store/Products");
 
-// resolve and defaults to null
-var name = node.ResolveOrDefault<string>("name");
-var image = node.ResolveOrDefault<NXBitmap>("image");
-var soundFx = node.ResolveOrDefault<NXAudio>("soundFx");
-
-// resolve and defaults to a nullable
-var stock = node.Resolve<int>("stock") ?? 0; // 0 is the default value!
-var price = node.Resolve<double>("price") ?? 0.0;
+// resolve to a nullable
+var name = node.ResolveString("name");
+var image = node.ResolveBitmap("image");
+var soundFx = node.ResolveAudio("soundFx");
 
 // resolve a node ..in a node!
-var bundles = node.Resolve("Bundled Products");
+var bundles = node.ResolvePath("Bundled Products");
 
 foreach (var bundle in bundles)
 {
@@ -43,20 +39,20 @@ foreach (var bundle in bundles)
 // all the previous resolving examples run at O(n)
 // if efficiency and speed is an issue..
 // this eager loads direct child of the selected node.
-node.ResolveAll(n => { // O(n)
-    name = n.ResolveOrDefault<string>("name"); // O(1)
-    stock = n.Resolve<int>("stock") ?? 0; // O(1)
-    price = n.Resolve<double>("price") ?? 0.0; // O(1)
-});
+var resolution = node.ResolveAll(); // O(n)
+
+name = resolution.ResolveString("name"); // O(1)
+stock = resolution.ResolveInt("stock") ?? 0; // O(1)
+price = resolution.ResolveDouble("price") ?? 0.0; // O(1)
 
 // compared to..
-name = node.ResolveOrDefault<string>("name"); // O(n)
-stock = node.Resolve<int>("stock") ?? 0; // O(n)
-price = node.Resolve<double>("price") ?? 0.0; // O(n)
+name = node.ResolveString("name"); // O(n)
+stock = node.ResolveInt("stock") ?? 0; // O(n)
+price = node.ResolveDouble("price") ?? 0.0; // O(n)
 ```
 parsing bitmaps/images with ImageSharp
 ```csharp
-var bitmap = node.ResolveOrDefault<NXBitmap>("icon");
+var bitmap = node.ResolveBitmap("icon");
 
 using (var image = Image.LoadPixelData<Bgra32>(bitmap.Data, bitmap.Width, bitmap.Height))
 using (var output = File.Create("icon.png")) {
@@ -65,16 +61,19 @@ using (var output = File.Create("icon.png")) {
     image.SaveAsPng(output);
 }
 ```
-also, remember to dispose~!
-```csharp
-using (var file = new NXFile("Data.nx")) {
-    // do your parsing thing here!
-}
 
-// or manually call dipose
-var file = new NXFile("Data.nx");
-file.Dispose();
+## 📖 Usage (PKG1.0)
+to get started, simply create a new WZ Package object like so. Do note that a key is required to decode properly.
+```csharp
+var pkg = new WZPackage("Data.wz", "95");
 ```
+
+Alternate filesystem and .img file loading
+```csharp
+var pkg = new FSDirectory("./Data/");
+```
+
+All resolve methods are synchronous with the PKG4.1 examples.
 
 ## ⭐️ Acknowledgements
 * [reNX](https://github.com/angelsl/ms-reNX) - main reference for implementations.
