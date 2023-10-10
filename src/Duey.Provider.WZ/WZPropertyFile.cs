@@ -1,5 +1,6 @@
 using System.IO.MemoryMappedFiles;
 using Duey.Abstractions;
+using Duey.Abstractions.Types;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
 using Duey.Provider.WZ.Types;
@@ -88,6 +89,12 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                         {
                             case "Property":
                                 yield return new WZPropertyFile(_view, _cipher, (int)reader.BaseStream.Position, name, this);
+                                break;
+                            case "Shape2D#Vector2D":
+                                yield return new WZPropertyData<DataVector>(name, this, new DataVector(
+                                    reader.ReadCompressedInt(), 
+                                    reader.ReadCompressedInt()
+                                ));
                                 break;
                         }
 
