@@ -16,15 +16,17 @@ public class NXPackage : IDataFile
         0,
         MemoryMappedFileAccess.Read,
         HandleInheritability.None,
-        false
-    ))
+        false),
+        Path.GetFileNameWithoutExtension(path)
+    )
     {
     }
 
-    public NXPackage(MemoryMappedFile view)
+    public NXPackage(MemoryMappedFile view, string name)
     {
         View = view;
         Accessor = View.CreateViewAccessor(0, 0, MemoryMappedFileAccess.Read);
+        Name = name;
 
         Accessor.Read(0, out Header);
 
@@ -43,23 +45,23 @@ public class NXPackage : IDataFile
 
         Accessor.Read(Header.NodeBlock, out NXNodeHeader header);
         Root = new NXNode(this, header);
-        
+
         StringOffsetTable = new NXStringOffsetTable(this, Header.StringCount, Header.StringOffsetTable);
         BitmapOffsetTable = new NXBitmapOffsetTable(this, Header.BitmapCount, Header.BitmapOffsetTable);
         AudioOffsetTable = new NXAudioOffsetTable(this, Header.AudioCount, Header.AudioOffsetTable);
     }
 
     internal readonly IDataNode Root;
-    
+
     internal readonly MemoryMappedFile View;
     internal readonly UnmanagedMemoryAccessor Accessor;
     internal readonly NXPackageHeader Header;
-    
+
     internal readonly NXStringOffsetTable StringOffsetTable;
     internal readonly NXBitmapOffsetTable BitmapOffsetTable;
     internal readonly NXAudioOffsetTable AudioOffsetTable;
 
-    public string Name => Root.Name;
+    public string Name { get; }
 
     public IDataNode Parent => Root;
     public IEnumerable<IDataNode> Children => Root.Children;
