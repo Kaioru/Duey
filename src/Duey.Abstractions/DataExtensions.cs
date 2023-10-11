@@ -39,7 +39,7 @@ public static class DataExtensions
         return child?.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
     }
 
-    public static byte? ResolveBool(this IDataNode node, string? path = null)
+    public static bool? ResolveBool(this IDataNode node, string? path = null)
         => node.ResolveLong(path) > 0;
     
     public static byte? ResolveByte(this IDataNode node, string? path = null)
