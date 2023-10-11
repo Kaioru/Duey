@@ -8,10 +8,12 @@ namespace Duey.Provider.WZ;
 public class FSDirectory : AbstractWZNode, IDataDirectory
 {
     private readonly string _path;
+    private readonly XORCipher? _cipher;
     
-    public FSDirectory(string path, IDataNode? parent = null)
+    public FSDirectory(string path, XORCipher? cipher = null, IDataNode? parent = null)
     {
         _path = path;
+        _cipher = cipher;
         Name = Path.GetFileName(path);
         Parent = parent ?? this;
     }
@@ -24,9 +26,9 @@ public class FSDirectory : AbstractWZNode, IDataDirectory
         get
         {
             foreach (var directory in Directory.GetDirectories(_path))
-                yield return new FSDirectory(directory, this);
+                yield return new FSDirectory(directory, _cipher, this);
             foreach (var file in Directory.GetFiles(_path, "*.img"))
-                yield return new WZFile(file, null, this);
+                yield return new WZFile(file, _cipher, this);
         }
     }
 }
