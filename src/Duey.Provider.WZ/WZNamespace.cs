@@ -17,24 +17,27 @@ public class WZNamespace : AbstractWZNode, IDataNamespace
         _cipher = cipher;
         Name = Path.GetFileName(path);
         Parent = this;
+        Cached = Directory
+            .GetFiles(_path, "*.wz")
+            .Select(f =>
+            {
+                try
+                {
+                    return (IDataNode)new WZPackage(f, _key, _cipher);
+                }
+                catch (WZPackageException)
+                {
+                    return null;
+                }
+            })
+            .Where(n => n != null)
+            .Select(n => n!)
+            .ToDictionary(n => n.Name, n => n);
     }
     
     public override string Name { get; }
     public override IDataNode Parent { get; }
 
-    public override IEnumerable<IDataNode> Children => Directory
-        .GetFiles(_path, "*.wz")
-        .Select(f =>
-        {
-            try
-            {
-                return new WZPackage(f, _key, _cipher);
-            }
-            catch (WZPackageException)
-            {
-                return null;
-            }
-        })
-        .Where(n => n != null)
-        .Select(n => n!);
+    public override IEnumerable<IDataNode> Children => Cached.Values;
+    public IDictionary<string, IDataNode> Cached { get; }
 }

@@ -4,8 +4,8 @@ namespace Duey.Abstractions;
 
 public static class DataExtensions
 {
-    public static IDataNode ResolveAll(this IDataNode node)
-        => new ResolutionNode(node);
+    public static IDataNode Cache(this IDataNode node)
+        => new DataNodeCached(node);
     
     public static IDataNode? ResolvePath(this IDataNode node, string? path = null)
     {
@@ -28,8 +28,8 @@ public static class DataExtensions
         if (childName is ".." or ".")
             return node.Parent.ResolvePath(path[Math.Min(firstSlash + 1, path.Length)..]);
 
-        var child = node is ResolutionNode resolution 
-            ? resolution.Cached.TryGetValue(childName, out var result) 
+        var child = node is IDataNodeCached cache 
+            ? cache.Cached.TryGetValue(childName, out var result) 
                 ? result 
                 : null
             : node.Children.FirstOrDefault(

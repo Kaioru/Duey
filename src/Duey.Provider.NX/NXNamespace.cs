@@ -12,19 +12,18 @@ public class NXNamespace : IDataNamespace
         _path = path;
         Name = Path.GetFileName(path);
         Parent = this;
+        Cached = Directory
+            .GetFiles(_path, "*.nx")
+            .Select(f => (IDataNode)new NXPackage(f))
+            .ToDictionary(n => n.Name, n => n);
     }
     
     public string Name { get; }
     public IDataNode Parent { get; }
+
+    public IEnumerable<IDataNode> Children => Cached.Values;
     
-    public IEnumerable<IDataNode> Children 
-    {
-        get
-        {
-            foreach (var file in Directory.GetFiles(_path, "*.nx"))
-                yield return new NXPackage(file);
-        }
-    }
+    public IDictionary<string, IDataNode> Cached { get; }
 
     public IEnumerator<IDataNode> GetEnumerator()
         => Children.GetEnumerator();

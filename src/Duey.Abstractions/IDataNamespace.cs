@@ -1,6 +1,5 @@
 namespace Duey.Abstractions;
 
-public interface IDataNamespace : IDataDirectory
+public interface IDataNamespace : IDataNodeCached, IDataDirectory
 {
-    
 }
