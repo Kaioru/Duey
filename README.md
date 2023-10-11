@@ -3,7 +3,7 @@ A minimal read-only implementation of the PKG1.0 and [NX PKG4.1 format](http://n
 
 ## 🤔 Why?
 * Duey works on runtimes targeting or supporting .NET Standard!
-* also, it's strictly parsing only. no caches, no weird voodoo magic.
+* also, it's strictly parsing only. no eager caches, no weird voodoo magic.
 
 ## 🏹 Supported Types
 | Type                           | PKG1.0 (WZ)        | PKG4.1 (NX)        |
@@ -41,7 +41,7 @@ foreach (var bundle in bundles)
 // all the previous resolving examples run at O(n)
 // if efficiency and speed is an issue..
 // this eager loads direct child of the selected node.
-var resolution = node.ResolveAll(); // O(n)
+var resolution = node.Cache(); // O(n)
 
 name = resolution.ResolveString("name"); // O(1)
 stock = resolution.ResolveInt("stock") ?? 0; // O(1)
