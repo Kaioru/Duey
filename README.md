@@ -1,5 +1,5 @@
 # Duey
-A minimal read-only implementation of the [NX PKG4.1 format](http://nxformat.github.io/) and PKG1.0 file specification on .NET Standard 2.1
+A minimal read-only implementation of the [NX PKG4.1](http://nxformat.github.io/) and PKG1.0 file specification on .NET Standard 2.1
 
 ## 🤔 Why?
 * Duey works on runtimes targeting or supporting .NET Standard!
