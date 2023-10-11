@@ -1,5 +1,6 @@
 using Duey.Abstractions;
 using Duey.Provider.WZ.Crypto;
+using Duey.Provider.WZ.Exceptions;
 
 namespace Duey.Provider.WZ;
 
@@ -21,12 +22,19 @@ public class WZNamespace : AbstractWZNode, IDataNamespace
     public override string Name { get; }
     public override IDataNode Parent { get; }
 
-    public override IEnumerable<IDataNode> Children
-    {
-        get
+    public override IEnumerable<IDataNode> Children => Directory
+        .GetFiles(_path, "*.wz")
+        .Select(f =>
         {
-            foreach (var file in Directory.GetFiles(_path, "*.wz"))
-                yield return new WZPackage(file, _key, _cipher);
-        }
-    }
+            try
+            {
+                return new WZPackage(f, _key, _cipher);
+            }
+            catch (WZPackageException)
+            {
+                return null;
+            }
+        })
+        .Where(n => n != null)
+        .Select(n => n!);
 }
