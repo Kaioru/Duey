@@ -1,6 +1,6 @@
 using Duey.Abstractions;
 
-namespace Duey.Provider.WZ;
+namespace Duey.Provider.WZ.Files;
 
 public class WZPropertyData<T> : AbstractWZNode, IDataProperty<T>
 {

@@ -1,6 +1,6 @@
-namespace Duey.Provider.WZ;
+namespace Duey.Provider.WZ.Files;
 
-public static class WZFileKey
+public static class WZImageKey
 {
     public static byte[] Default = { 0x13, 0x08, 0x06, 0xb4, 0x1b, 0x0f, 0x33, 0x52 };
 }

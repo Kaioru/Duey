@@ -2,6 +2,7 @@ using System.IO.MemoryMappedFiles;
 using Duey.Abstractions;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Exceptions;
+using Duey.Provider.WZ.Files;
 
 namespace Duey.Provider.WZ;
 
@@ -50,7 +51,7 @@ public class WZDirectory : AbstractWZNode, IDataDirectory
                         yield return new WZDirectory(_package, offset, name, this);
                         break;
                     case 4:
-                        yield return new WZFile(_package.View, _package.Cipher, 0, offset, name, this);
+                        yield return new WZImage(_package.View, _package.Cipher, 0, offset, name, this);
                         break;
                 }
             }

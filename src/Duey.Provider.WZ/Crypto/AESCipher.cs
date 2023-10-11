@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using Duey.Provider.WZ.Files;
 
 namespace Duey.Provider.WZ.Crypto;
 
@@ -6,7 +7,7 @@ public class AESCipher
 {
     private readonly ICryptoTransform _transformer;
 
-    public AESCipher() : this(WZFileKey.Default)
+    public AESCipher() : this(WZImageKey.Default)
     {
     }
 

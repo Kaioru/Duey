@@ -1,3 +1,5 @@
+using Duey.Provider.WZ.Files;
+
 namespace Duey.Provider.WZ.Crypto;
 
 public class XORCipher
@@ -5,7 +7,7 @@ public class XORCipher
     private AESCipher _aes;
     private byte[] _key;
 
-    public XORCipher() : this(WZFileIV.GMS)
+    public XORCipher() : this(WZImageIV.GMS)
     {
     }
     

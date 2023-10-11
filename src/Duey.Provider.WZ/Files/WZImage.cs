@@ -4,13 +4,13 @@ using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
 using Duey.Provider.WZ.Exceptions;
 
-namespace Duey.Provider.WZ;
+namespace Duey.Provider.WZ.Files;
 
-public class WZFile : AbstractWZNode, IDataFile
+public class WZImage : AbstractWZNode, IDataFile
 {
     private readonly IDataNode _root;
 
-    public WZFile(string path, XORCipher? cipher = null, IDataNode? parent = null) : this(
+    public WZImage(string path, XORCipher? cipher = null, IDataNode? parent = null) : this(
         MemoryMappedFile.CreateFromFile(
             File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read),
             null,
@@ -28,7 +28,7 @@ public class WZFile : AbstractWZNode, IDataFile
     {
     }
     
-    public WZFile(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)
+    public WZImage(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)
     {
         using var stream = view.CreateViewStream(offset, 0, MemoryMappedFileAccess.Read);
         using var reader = new WZReader(stream, cipher, start);

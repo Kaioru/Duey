@@ -5,7 +5,7 @@ using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
 using Duey.Provider.WZ.Types;
 
-namespace Duey.Provider.WZ;
+namespace Duey.Provider.WZ.Files;
 
 public class WZPropertyFile : AbstractWZNode, IDataNode
 {

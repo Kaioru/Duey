@@ -2,6 +2,7 @@ using System.Collections;
 using System.IO.MemoryMappedFiles;
 using Duey.Abstractions;
 using Duey.Provider.WZ.Crypto;
+using Duey.Provider.WZ.Files;
 
 namespace Duey.Provider.WZ;
 
@@ -28,7 +29,7 @@ public class FSDirectory : AbstractWZNode, IDataDirectory
             foreach (var directory in Directory.GetDirectories(_path))
                 yield return new FSDirectory(directory, _cipher, this);
             foreach (var file in Directory.GetFiles(_path, "*.img"))
-                yield return new WZFile(file, _cipher, this);
+                yield return new WZImage(file, _cipher, this);
         }
     }
 }

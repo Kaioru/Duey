@@ -3,6 +3,7 @@ using Duey.Abstractions;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
 using Duey.Provider.WZ.Exceptions;
+using Duey.Provider.WZ.Files;
 
 namespace Duey.Provider.WZ;
 
@@ -27,7 +28,7 @@ public class WZPackage : AbstractWZNode, IDataDirectory
         ),
         Path.GetFileNameWithoutExtension(path),
         key,
-        cipher ?? new XORCipher(WZFileIV.GMS),
+        cipher ?? new XORCipher(WZImageIV.GMS),
         parent
     )
     {
