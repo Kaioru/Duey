@@ -3,7 +3,7 @@ using Duey.Provider.WZ.Crypto;
 
 namespace Duey.Provider.WZ;
 
-public class WZNamespace : AbstractWZNode, IDataDirectory
+public class WZNamespace : AbstractWZNode, IDataNamespace
 {
     private readonly string _path;
     private readonly string _key;

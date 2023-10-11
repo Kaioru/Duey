@@ -3,7 +3,7 @@ using Duey.Abstractions;
 
 namespace Duey.Provider.NX;
 
-public class NXNamespace : IDataDirectory
+public class NXNamespace : IDataNamespace
 {
     private readonly string _path;
     
