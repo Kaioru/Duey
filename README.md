@@ -6,12 +6,14 @@ A minimal read-only implementation of the [NX PKG4.1](http://nxformat.github.io/
 * also, it's strictly parsing only. no caches, no weird voodoo magic.
 
 ## 🏹 Supported Types
-- [x] Int64 (byte, short, int, long)
-- [x] Double (float, double)
-- [x] String (string)
-- [x] Vector (DataVector)
-- [x] Bitmap (DataBitmap)
-- [x] Audio (DataAudio)
+| Type                           | PKG1.0 (WZ)        | PKG4.1 (NX)        |
+|--------------------------------|--------------------|--------------------|
+| Int64 (byte, short, int, long) | :heavy_check_mark: | :heavy_check_mark: |
+| Double (float, double)         | :heavy_check_mark: | :heavy_check_mark: |
+| String (string)                | :heavy_check_mark: | :heavy_check_mark: |
+| Vector (DataVector)            | :heavy_check_mark: | :heavy_check_mark: |
+| Bitmap (DataBitmap)            |                    | :heavy_check_mark: |
+| Audio (DataAudio)              |                    | :heavy_check_mark: |
 
 ## ✏️ Usage (PKG4.1)
 to get started, simply create a new NX Package object like so.
