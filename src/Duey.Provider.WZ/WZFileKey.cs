@@ -1,0 +1,6 @@
+namespace Duey.Provider.WZ;
+
+public static class WZFileKey
+{
+    public static byte[] Default = { 0x13, 0x08, 0x06, 0xb4, 0x1b, 0x0f, 0x33, 0x52 };
+}

@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
+
+    <Import Project="..\Source.targets" />
+
+    <ItemGroup>
+      <ProjectReference Include="..\Duey.Abstractions\Duey.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>
