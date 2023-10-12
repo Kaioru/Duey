@@ -5,6 +5,13 @@ A minimal read-only implementation of the PKG1.0 and [NX PKG4.1 format](http://n
 * Duey works on runtimes targeting or supporting .NET Standard!
 * also, it's strictly parsing only. no eager caches, no weird voodoo magic.
 
+## 📦 Packages
+Package                          | Version                                                                                                                                     | Description
+---------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------- | -----------------------------
+`Duey.Abstractions`              | [![Nuget](https://img.shields.io/nuget/v/Duey.Abstractions.svg)](https://nuget.org/packages/Duey.Abstractions)                              | Base interfaces and common extensions
+`Duey.Provider.NX`               | [![Nuget](https://img.shields.io/nuget/v/Duey.Provider.NX.svg)](https://nuget.org/packages/Duey.Provider.NX)                                | Implementation of the NX PKG4.1 format
+`Duey.Provider.WZ`               | [![Nuget](https://img.shields.io/nuget/v/Duey.Provider.WZ.svg)](https://nuget.org/packages/Duey.Provider.WZ)                                | Implementation of the PKG1 format
+
 ## 🏹 Supported Types
 | Type                           | PKG1.0 (WZ)        | PKG4.1 (NX)        |
 |--------------------------------|--------------------|--------------------|
