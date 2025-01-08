@@ -3,16 +3,19 @@ using Duey.Abstractions;
 using Duey.Abstractions.Types;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
+using Duey.Provider.WZ.Files.Deferred;
 using Duey.Provider.WZ.Types;
 
 namespace Duey.Provider.WZ.Files;
 
 public class WZPropertyFile : AbstractWZNode, IDataNode
 {
-    private readonly MemoryMappedFile _view;
-    private readonly XORCipher _cipher;
-    private readonly int _start;
-    private readonly int _offset;
+    protected readonly MemoryMappedFile _view;
+    protected readonly XORCipher _cipher;
+    protected readonly int _start;
+    protected readonly int _offset;
+    
+    protected int? _startDeferred;
 
     public WZPropertyFile(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)
     {
@@ -35,7 +38,8 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
             using var reader = new WZReader(stream, _cipher, _start);
             
             reader.ReadBoolean();
-            reader.ReadByte();
+            if (reader.ReadBoolean())
+                reader.BaseStream.Position += 2;
 
             var count = reader.ReadCompressedInt();
     
@@ -92,6 +96,9 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                             case "Property":
                                 yield return new WZPropertyFile(_view, _cipher, (int)reader.BaseStream.Position, _offset, name, this);
                                 break;
+                            case "Canvas":
+                                yield return new WZPropertyCanvas(_view, _cipher, (int)reader.BaseStream.Position, _offset, name, this);
+                                break;
                             case "Shape2D#Vector2D":
                                 yield return new WZPropertyData<DataVector>(name, this, new DataVector(
                                     reader.ReadCompressedInt(), 
@@ -107,6 +114,8 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            _startDeferred = (int)reader.BaseStream.Position;
         }
     }
 }
