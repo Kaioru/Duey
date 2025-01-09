@@ -29,6 +29,6 @@ internal class NXBitmapOffsetTable : AbstractNXOffsetTable<DataBitmap, NXPropert
         Package.Accessor.ReadArray(offset + 4, source, 0, sourceLength);
         LZ4Codec.Decode(source, target);
 
-        return new DataBitmap(data.Width, data.Height, target);
+        return new DataBitmap(data.Width, data.Height, DataBitmapFormat.Bgra32, target);
     }
 }

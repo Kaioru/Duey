@@ -1,6 +1,5 @@
 using System.Collections;
 using System.IO.MemoryMappedFiles;
-using System.Runtime.InteropServices;
 using Duey.Abstractions;
 using Duey.Provider.NX.Exceptions;
 using Duey.Provider.NX.Headers;

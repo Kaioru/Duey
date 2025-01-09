@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Duey.Provider.NX\Duey.Provider.NX.csproj" />
+      <ProjectReference Include="..\Duey.Provider.WZ\Duey.Provider.WZ.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
+    </ItemGroup>
+
+</Project>
