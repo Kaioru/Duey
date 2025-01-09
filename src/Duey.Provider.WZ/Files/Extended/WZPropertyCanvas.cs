@@ -5,7 +5,7 @@ using Duey.Abstractions.Types;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
 
-namespace Duey.Provider.WZ.Files.Deferred;
+namespace Duey.Provider.WZ.Files.Extended;
 
 public class WZPropertyCanvas : WZPropertyDeferred<DataBitmap>
 {

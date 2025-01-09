@@ -3,13 +3,16 @@ using Duey.Abstractions;
 using Duey.Abstractions.Types;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
-using Duey.Provider.WZ.Files.Deferred;
+using Duey.Provider.WZ.Files.Extended;
 using Duey.Provider.WZ.Types;
 
 namespace Duey.Provider.WZ.Files;
 
 public class WZPropertyFile : AbstractWZNode, IDataNode
 {
+    private static readonly Guid GUIDAudioFormatWav = new("05589f81-c356-11ce-bf01-00aa0055595a");
+    private static readonly Guid GUIDAudioFormatNone = new("00000000-0000-0000-0000-000000000000");
+
     protected readonly MemoryMappedFile _view;
     protected readonly XORCipher _cipher;
     protected readonly int _start;
@@ -103,6 +106,23 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                                 yield return new WZPropertyData<DataVector>(name, this, new DataVector(
                                     reader.ReadCompressedInt(), 
                                     reader.ReadCompressedInt()
+                                ));
+                                break;
+                            case "Sound_DX8":
+                                reader.ReadByte();
+
+                                var length = reader.ReadCompressedInt();
+                                var duration = reader.ReadCompressedInt();
+
+                                reader.BaseStream.Position += 1 + 16 + 16 + 2;
+
+                                var format = new Guid(reader.ReadBytes(16));
+
+                                if (format == GUIDAudioFormatWav)
+                                    reader.BaseStream.Position += reader.ReadCompressedInt();
+                                
+                                yield return new WZPropertyData<DataAudio>(name, this, new DataAudio(
+                                    reader.ReadBytes(length)
                                 ));
                                 break;
                         }
