@@ -3,16 +3,22 @@ using Duey.Abstractions;
 using Duey.Abstractions.Types;
 using Duey.Provider.WZ.Codecs;
 using Duey.Provider.WZ.Crypto;
+using Duey.Provider.WZ.Files.Extended;
 using Duey.Provider.WZ.Types;
 
 namespace Duey.Provider.WZ.Files;
 
 public class WZPropertyFile : AbstractWZNode, IDataNode
 {
-    private readonly MemoryMappedFile _view;
-    private readonly XORCipher _cipher;
-    private readonly int _start;
-    private readonly int _offset;
+    private static readonly Guid GUIDAudioFormatWav = new("05589f81-c356-11ce-bf01-00aa0055595a");
+    private static readonly Guid GUIDAudioFormatNone = new("00000000-0000-0000-0000-000000000000");
+
+    protected readonly MemoryMappedFile _view;
+    protected readonly XORCipher _cipher;
+    protected readonly int _start;
+    protected readonly int _offset;
+    
+    protected int? _startDeferred;
 
     public WZPropertyFile(MemoryMappedFile view, XORCipher cipher, int start, int offset, string name, IDataNode? parent = null)
     {
@@ -35,7 +41,8 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
             using var reader = new WZReader(stream, _cipher, _start);
             
             reader.ReadBoolean();
-            reader.ReadByte();
+            if (reader.ReadBoolean())
+                reader.BaseStream.Position += 2;
 
             var count = reader.ReadCompressedInt();
     
@@ -92,10 +99,30 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                             case "Property":
                                 yield return new WZPropertyFile(_view, _cipher, (int)reader.BaseStream.Position, _offset, name, this);
                                 break;
+                            case "Canvas":
+                                yield return new WZPropertyCanvas(_view, _cipher, (int)reader.BaseStream.Position, _offset, name, this);
+                                break;
                             case "Shape2D#Vector2D":
                                 yield return new WZPropertyData<DataVector>(name, this, new DataVector(
                                     reader.ReadCompressedInt(), 
                                     reader.ReadCompressedInt()
+                                ));
+                                break;
+                            case "Sound_DX8":
+                                reader.ReadByte();
+
+                                var length = reader.ReadCompressedInt();
+                                var duration = reader.ReadCompressedInt();
+
+                                reader.BaseStream.Position += 1 + 16 + 16 + 2;
+
+                                var format = new Guid(reader.ReadBytes(16));
+
+                                if (format == GUIDAudioFormatWav)
+                                    reader.BaseStream.Position += reader.ReadCompressedInt();
+                                
+                                yield return new WZPropertyData<DataAudio>(name, this, new DataAudio(
+                                    reader.ReadBytes(length)
                                 ));
                                 break;
                         }
@@ -107,6 +134,8 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                         throw new ArgumentOutOfRangeException();
                 }
             }
+
+            _startDeferred = (int)reader.BaseStream.Position;
         }
     }
 }
