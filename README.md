@@ -19,8 +19,8 @@ Package                          | Version                                      
 | Double (float, double)         | :heavy_check_mark: | :heavy_check_mark: |
 | String (string)                | :heavy_check_mark: | :heavy_check_mark: |
 | Vector (DataVector)            | :heavy_check_mark: | :heavy_check_mark: |
-| Bitmap (DataBitmap)            |                    | :heavy_check_mark: |
-| Audio (DataAudio)              |                    | :heavy_check_mark: |
+| Bitmap (DataBitmap)            | :heavy_check_mark: | :heavy_check_mark: |
+| Audio (DataAudio)              | :heavy_check_mark: | :heavy_check_mark: |
 
 ## ✏️ Usage (PKG4.1)
 to get started, simply create a new NX Package object like so.
