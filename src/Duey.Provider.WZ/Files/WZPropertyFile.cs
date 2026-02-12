@@ -64,8 +64,10 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                         yield return new WZPropertyData<long>(name, this, reader.ReadUInt16());
                         break;
                     case WZVariantType.Int16Variant:
-                    case WZVariantType.BoolVariant:
                         yield return new WZPropertyData<long>(name, this, reader.ReadInt16());
+                        break;
+                    case WZVariantType.BoolVariant:
+                        yield return new WZPropertyData<long>(name, this, reader.ReadByte());
                         break;
                     case WZVariantType.Uint32Variant:
                     case WZVariantType.Int32Variant:
@@ -86,7 +88,7 @@ public class WZPropertyFile : AbstractWZNode, IDataNode
                     case WZVariantType.CYVariant:
                     case WZVariantType.Int64Variant:
                     case WZVariantType.Uint64Variant:
-                        yield return new WZPropertyData<long>(name, this, reader.ReadCompressedLong());
+                        yield return new WZPropertyData<long>(name, this, reader.ReadInt64());
                         break;
                     case WZVariantType.DispatchVariant:
                     case WZVariantType.UnknownVariant:
