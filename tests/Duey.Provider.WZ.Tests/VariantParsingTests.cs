@@ -4,6 +4,7 @@ using Duey.Provider.WZ.Crypto;
 using Duey.Provider.WZ.Files;
 using Duey.Provider.WZ.Types;
 using Xunit;
+using static Duey.Provider.WZ.Tests.WZTestHelpers;
 
 namespace Duey.Provider.WZ.Tests;
 
@@ -191,50 +192,4 @@ public class VariantParsingTests
 
         return PadToMinimumSize(ms.ToArray(), 256);
     }
-
-    /// <summary>
-    /// Writes an inline string block (type 0x00) with ASCII encoding.
-    /// Encrypts the string content using the same XOR mask + cipher pipeline
-    /// that WZReader.ReadString/ReadStringASCII uses for decryption.
-    /// </summary>
-    private static void WriteInlineStringBlock(BinaryWriter writer, string value, XORCipher cipher)
-    {
-        writer.Write((byte)0x00); // string block type: inline
-
-        if (string.IsNullOrEmpty(value))
-        {
-            writer.Write((sbyte)0); // length = 0 → empty string
-            return;
-        }
-
-        var plaintext = Encoding.ASCII.GetBytes(value);
-        writer.Write((sbyte)(-plaintext.Length)); // negative length = ASCII
-
-        // Encrypt: reverse of WZReader decryption pipeline
-        // Decryption: raw → XOR mask (0xAA+i) → cipher XOR keystream → plaintext
-        // Encryption: plaintext → cipher XOR keystream → XOR mask (0xAA+i) → raw
-        var encrypted = new byte[plaintext.Length];
-        Buffer.BlockCopy(plaintext, 0, encrypted, 0, plaintext.Length);
-
-        cipher.Transform(encrypted);
-
-        byte mask = 0xAA;
-        for (var i = 0; i < encrypted.Length; i++)
-        {
-            encrypted[i] ^= mask;
-            mask++;
-        }
-
-        writer.Write(encrypted);
     }
-
-    private static byte[] PadToMinimumSize(byte[] data, int minSize)
-    {
-        if (data.Length >= minSize)
-            return data;
-
-        var padded = new byte[minSize];
-        Buffer.BlockCopy(data, 0, padded, 0, data.Length);
-        return padded;
-    }
-}
