@@ -8,6 +8,7 @@ using Duey.Provider.WZ.Files;
 using Duey.Provider.WZ.Files.Extended;
 using Duey.Provider.WZ.Types;
 using Xunit;
+using static Duey.Provider.WZ.Tests.WZTestHelpers;
 
 namespace Duey.Provider.WZ.Tests;
 
@@ -446,64 +447,8 @@ public class CanvasChildrenTests
         writer.Write((byte)0);                 // scale = 0
         writer.Write(0);                       // 4-byte skip
         writer.Write(totalLength);             // length (includes 3-byte header)
-        writer.Write(new byte[3]);             // 3-byte header (ignored by Resolve)
+        writer.Write(new byte[] { 0x00, 0x78, 0x9C }); // header: standard deflate path (header[1]=0x78)
         writer.Write(deflated);                // deflate-compressed pixel data
     }
 
-    private static void WriteCompressedInt(BinaryWriter writer, int value)
-    {
-        if (value >= -127 && value <= 127)
-        {
-            writer.Write((sbyte)value);
-        }
-        else
-        {
-            writer.Write((sbyte)(-128));
-            writer.Write(value);
-        }
     }
-
-    private static void WriteInlineStringBlock(BinaryWriter writer, string value, XORCipher cipher)
-    {
-        writer.Write((byte)0x00); // string block type: inline
-
-        if (string.IsNullOrEmpty(value))
-        {
-            writer.Write((sbyte)0);
-            return;
-        }
-
-        var plaintext = Encoding.ASCII.GetBytes(value);
-        writer.Write((sbyte)(-plaintext.Length));
-
-        var encrypted = new byte[plaintext.Length];
-        Buffer.BlockCopy(plaintext, 0, encrypted, 0, plaintext.Length);
-
-        cipher.Transform(encrypted);
-
-        byte mask = 0xAA;
-        for (var i = 0; i < encrypted.Length; i++)
-        {
-            encrypted[i] ^= mask;
-            mask++;
-        }
-
-        writer.Write(encrypted);
-    }
-
-    private static MemoryMappedFile CreateMemoryMappedFile(byte[] data)
-    {
-        var mmf = MemoryMappedFile.CreateNew(null, data.Length);
-        using var stream = mmf.CreateViewStream(0, data.Length, MemoryMappedFileAccess.Write);
-        stream.Write(data, 0, data.Length);
-        return mmf;
-    }
-
-    private static byte[] PadToMinimumSize(byte[] data, int minSize)
-    {
-        if (data.Length >= minSize) return data;
-        var padded = new byte[minSize];
-        Buffer.BlockCopy(data, 0, padded, 0, data.Length);
-        return padded;
-    }
-}

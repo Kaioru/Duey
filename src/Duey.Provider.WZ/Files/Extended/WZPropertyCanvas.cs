@@ -55,6 +55,7 @@ public class WZPropertyCanvas : WZPropertyDeferred<DataBitmap>
         var height = reader.ReadCompressedInt();
         var format = reader.ReadCompressedInt() switch
         {
+            0x001 => DataBitmapFormat.Rgba16,
             0x002 => DataBitmapFormat.Rgba32,
             0x201 => DataBitmapFormat.Rgba16,
             _ => DataBitmapFormat.Unknown
@@ -67,14 +68,37 @@ public class WZPropertyCanvas : WZPropertyDeferred<DataBitmap>
         var header = reader.ReadBytes(3);
         var data = reader.ReadBytes(length - 3);
 
+        width >>= scale;
+        height >>= scale;
+
+        if (header[1] != 0x78)
+        {
+            // Encrypted path: 8-byte preamble + XOR-encrypted raw deflate
+            //   data[0..3]  = constant magic [00 00 EE 32]
+            //   data[4..7]  = LE32 compressedSize
+            //   data[8..]   = XOR-encrypted raw deflate (no zlib wrapper)
+            if (data.Length < 8)
+                throw new InvalidDataException("Encrypted canvas preamble is too short.");
+            var compressedSize = BitConverter.ToInt32(data, 4);
+            if (compressedSize <= 0 || compressedSize > data.Length - 8)
+                throw new InvalidDataException(
+                    $"Encrypted canvas compressed size {compressedSize} is out of range.");
+
+            var payload = new byte[compressedSize];
+            Array.Copy(data, 8, payload, 0, compressedSize);
+            _cipher.Transform(payload);
+
+            using var encStream = new MemoryStream(payload, false);
+            using var deflate   = new DeflateStream(encStream, CompressionMode.Decompress);
+            using var output    = new MemoryStream();
+            deflate.CopyTo(output);
+            return new DataBitmap((ushort)width, (ushort)height, format, output.ToArray());
+        }
+
         using var stream0 = new MemoryStream(data, false);
         using var stream1 = new DeflateStream(stream0, CompressionMode.Decompress);
         using var stream2 = new MemoryStream();
-
-        width >>= scale;
-        height >>= scale;
         stream1.CopyTo(stream2);
-
         return new DataBitmap((ushort)width, (ushort)height, format, stream2.ToArray());
     }
 }
